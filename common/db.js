@@ -1,35 +1,67 @@
-function openComDB(name, path, callback) {  
-    plus.sqlite.openDatabase({  
-        name: name,  
-        path: path,  
-        success: function(e) {  
-            // plus.nativeUI.alert('打开数据库成功');  
-            callback(e)  
-        },  
-        fail: function(e) {  
-            // plus.nativeUI.alert("打开数据库失败");  
-            callback(e);  
-        }  
-    })  
+function open(name, path) {
+    return new Promise((resolve, reject) => {
+        plus.sqlite.openDatabase({
+            name: name,  
+            path: path,  
+            success: function() {  
+                resolve()
+            },  
+            fail: (e) => {  
+                reject(e)
+            }  
+        })  
+    })
+    
 }  
 
-function executeSQL(name, sql, callback) {  
-    plus.sqlite.selectSql({  
-        name: name,  
-        sql: sql,  
-        success: function(e) {  
-            // console.log("查询数据库:" + name + ",表:" + sql + ";的");  
-            // console.log(JSON.stringify(e));  
-            callback(e);  
-        },  
-        fail: function(e) {  
-            console.log("查询数据库失败:" + JSON.stringify(e));  
-            callback(e);  
-        }  
-    })  
-}  
+function executeSQL(name, sql) {
+    return new Promise((resolve, reject) => {
+        plus.sqlite.selectSql({
+            name: name,  
+            sql: sql,  
+            success: function(data) {   
+                resolve(data)
+            },  
+            fail: function(e) {
+                reject(e)
+            }  
+        })  
+    })
+}
+
+function select(name, sql) {
+    return new Promise((resolve, reject) => {
+        plus.sqlite.selectSql({
+            name: name,  
+            sql: sql,  
+            success: function(data) {   
+                resolve(data)
+            },  
+            fail: function(e) {
+                reject(e)
+            }  
+        })  
+    })
+}
+
+function close(name) {
+    return new Promise((resolve, reject) => {
+        plus.sqlite.closeDatabase({
+            name,
+            success() {
+                resolve()
+            },
+            fail(e) {
+                reject(e)
+            }
+        })
+    })
+}
+
 
 export{  
-    openComDB,  
-    executeSQL  
+    open,  
+    executeSQL,
+    close,
+    select
 }

@@ -12,13 +12,40 @@
 
 <script>
     import dataList from '../../static/data.js'
+    import { open, close, select } from '../../common/db.js'
 	export default {
 		data() {
 			return {
 				href: 'https://uniapp.dcloud.io/component/README?id=uniui',
-                dataList
+                dataList: []
 			}
 		},
+        onLoad() {
+            // #ifdef APP
+            const name = 'store';
+            const path = '_doc/data.db';
+            const isOpen = plus.sqlite.isOpenDatabase(name);
+            if(!isOpen){
+                open(name, path).then(()=>{
+                    select(name, "select * from my_table limit 1 OFFSET 10").then(res=>{
+                        console.log(res)
+                    }).catch(e=>{
+                        console.log(e)
+                    })
+                })
+                .catch(e => {
+                    console.log('openDatabase failed: '+JSON.stringify(e));
+                })
+            }else{
+                select(name, "select * from my_table limit 1 OFFSET 10").then(res=>{
+                    console.log(res)
+                }).catch(e=>{
+                    console.log(e)
+                })
+            }
+            
+            // #endif
+        },
 		methods: {
             handleClick(item){
                 const content = JSON.stringify(item);

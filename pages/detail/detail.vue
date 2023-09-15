@@ -17,7 +17,6 @@
         },
         onLoad(options) {
             const content = JSON.parse(options.content);
-            console.log(content, 'onLoad')
             this.item = {...content}
         }
     }
@@ -28,9 +27,14 @@ page{
     text-align: center;
 }
 .article{
-    font-size: 26rpx;
+    font-size: 28rpx;
+    &-author {
+        color: #666;
+        margin-top: 20rpx;
+    }
     &-content{
         padding: 24rpx;
+        font-size: 32rpx;
         &-item{
             &+&{
                 margin-top: 12rpx;

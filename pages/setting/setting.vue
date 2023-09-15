@@ -1,8 +1,9 @@
 <template>
     <view>
+        <text>这里是设置界面</text>
         <uni-list>
-            <uni-list-item title="" note=""></uni-list-item>
-            <uni-list-item title="版本" :note="version"></uni-list-item>
+            <uni-list-item title="测试" note=""></uni-list-item>
+            <uni-list-item title="版本" :right-text="version"></uni-list-item>
         </uni-list>
     </view>
 </template>
@@ -16,7 +17,8 @@
         },
         onLoad() {
             // #ifdef APP
-                console.log(plus.runtime.version)
+                this.version = plus.runtime.version
+                console.log(this.version)
             // #endif
             
         }
